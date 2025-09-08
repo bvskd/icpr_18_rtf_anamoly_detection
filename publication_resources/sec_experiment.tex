@@ -1,0 +1,53 @@
+\section{Experiment}
+
+\subsection{Data Description and Experimental Protocol}
+
+In this section, we introduce seven experimented data sets 
+and experimental protocols.
+
+Three data sets are security related. One is the Spam Email 
+data set downloaded from the UCI data repository; 
+it contains 4601 profiled emails categorized into spam emails 
+and normal emails. Another one is the Big Malware 
+classification Challenge 2015 data set downloaded 
+from Kaggle 
+\footnote{https://www.kaggle.com/c/malware-classification}; 
+it contains approximately 10,000 profiled malware files that 
+are categorized into nine families, including Ramnit, 
+Lollipop, Vundo, etc. The third one is the Coburg Intrusion Detection data set recently created by Ring et al. 
+\cite{ring2017flow}; it contains approximately 
+32 million profiled network flows collected in a 
+period of 4 weeks and categorized into five classes, 
+namely, attack, normal, suspicious, unknown and victim. 
+
+The other four data sets are widely used for anomaly 
+detection task, and are downloaded from Stony Brook 
+University's Outlier Detection DataSets\footnote{http://odds.cs.stonybrook.edu/}. 
+One is the Satellite data set; it contains 6435 
+profiled patches of satellite images that are divided 
+into 36 different classes, including red soil, cotton crop, 
+grey soil,etc. Another one is the Ionosphere data set; 
+it contains 351 profiled radar-transmitted signals that 
+are classified into anomalous and normal signals. 
+The third one is the Cardio data set; it contains 1831 
+profiled patients classified into anomalous, suspect and 
+normal patients. The last one is Arrhythmia data set; 
+it contains 452 profiled patients with or without the 
+presence of cardiac arrhythmia. 
+
+To examine predictive demographic disparity, we 
+collected the Crime Community data set \cite{redmond2002data}. 
+It contains 1994 profiled U.S. communities 
+labeled by their recorded violent crime rates. 
+We binarized crime rates such that those above 50\% (high-risk 
+communities) were encoded as 1, and those below 50\% (low-risk communities) were encoded as -1. 
+
+All categorical features were encoded by dummy variables. 
+
+In each experiment, we randomly chose 50\% instances on 
+a data set for training and used the rest for testing. 
+We repeated the random trials for 20 times, and reported 
+the averaged prediction qualities. Hyper-parameters of 
+all models were optimized through grid search, 
+and those yielding optimal testing performance were selected. 
+

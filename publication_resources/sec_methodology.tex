@@ -1,0 +1,72 @@
+\section{Estimating Testing Qualities based on A 
+Reverse Testing Framework} 
+
+In this section, we propose approaches to estimate 
+testing qualities without testing labels. 
+The idea is straightforward: one first learns a model 
+from training set, and applies it to label the testing 
+set; then one re-trains the model on the pseudo-labeled 
+testing set, and evaluates its prediction qualities on 
+the training set. We will call the later 
+\textit{reversed testing qualities} and hypothesize 
+they are good estimate of the testing qualities. 
+
+Our approaches for classification and anomaly detection 
+tasks are slightly different, and will be introduced 
+separately. 
+
+For classification, let $M$ be a metric of prediction 
+quality. It can be classification error $er(f; Q)$, 
+f1-score $f1(f; Q)$ or conditional prediction 
+disparities $\gamma_{+}(f; Q)$ and $\gamma_{-}(f; Q)$. 
+Our proposed estimation approach is described in 
+Algorithm \ref{alg:prediction}. Note it does not require 
+labels of testing sample. 
+
+\begin{algorithm}[h]
+\begin{algorithmic}
+   \STATE {\bfseries Input:} Labeled training set $S$, 
+   Unlabeled testing set $Q$, Model $f$, 
+   Prediction quality metric $M$
+   \STATE 1: train $f$ on $S$ and apply it to label $Q$ \\   
+   \STATE 2: retrain $f$ on pseudo-labeled $Q$ 
+   \STATE 3: evaluate $f$ on $S$ based on metric $M$
+   \STATE {\bfseries Output:} prediction quality 
+   of $f$ on $S$ (as an estimate of $f$'s prediction 
+   quality on $Q$)  
+   \vskip -0.2in
+\end{algorithmic}
+   \caption{Reversed Classification Quality Estimator}
+\label{alg:prediction}
+\end{algorithm}
+
+For anomaly detection, $M$ is AUC score $AUC(f; Q)$. 
+Our proposed estimation approach is described in 
+Algorithm \ref{alg:anomalydetection}. 
+
+\begin{algorithm}[h]
+\begin{algorithmic}
+   \STATE {\bfseries Input:} Labeled training set $S$, 
+   Unlabeled testing set $Q$, Model $f$, Detection 
+   threshold $r$  
+   \STATE 1: train $f$ on {normal instances} in $S$ 
+   and apply  it to detect anomalies in $Q$ based on 
+   threshold $r$ \\   
+   \STATE 2: retrain $f$ on pseudo-labeled normal instances 
+   in $Q$ 
+   \STATE 3: evaluate $f$ on $S$ and obtained detection 
+   rate and false alarm rate based on $r$ 
+   \STATE 4: repeat step 1-3 with different threshold 
+   $r$ to obtain AUC score of $f$ on $S$ 
+   \STATE {\bfseries Output:} AUC score of $f$ on $S$
+    (as an estimate of $f$'s AUC score on $Q$)
+   \vskip -0.2in
+\end{algorithmic}
+   \caption{Reversed Anomaly Detection Quality Estimator}
+\label{alg:anomalydetection}
+\end{algorithm}
+
+Algorithm \ref{alg:anomalydetection} does not require labels of 
+testing set. It differs from Algorithm \ref{alg:prediction} 
+in that it trains and retrains the model only on normal 
+instances and with different threshold values. 

@@ -1,0 +1,62 @@
+\section{Introduction}
+
+Model assessment is a fundamental task in machine learning. 
+To evaluate prediction qualities of models on a testing sample, it is typically assumed the sample is labeled. 
+However, this assumption is not always true in practice, 
+especially as new testing instances are continuously collected 
+faster than one can manually label them. How to estimate 
+prediction qualities on unlabeled testing sample? This is 
+a research question with significant value in practice. 
+
+A common approach is to approximate testing qualities\footnote{To 
+facilitate discussion, we will call 
+prediction qualities on testing sample \textit{testing qualities}, 
+and those on training sample \textit{training qualities}.} 
+by training qualities, presuming a stationary setting. 
+However, this may be limited in that it completely ignores 
+testing samples. 
+
+A more promising approach is to develop testing-dependent
+estimates of testing qualities. However our inspection shows 
+its literature appears very sparse, and none of them directly 
+addresses the above question. 
+Fan and Davidson \cite{fan2006reverse} propose a reverse testing 
+framework for model selection; it approximates the comparative 
+qualities of two models on testing sample by their reversed 
+comparative qualities on training sample. However, the study does 
+not address how to assess a single model on unlabeled testing sample. 
+Valindria et al. \cite{valindria2017reverse} propose 
+a similar approach which approximates a model's segmentation quality 
+on a single image by the its reversed segmentation quality on labeled 
+training image. However, their problem setting is different from 
+the statistical setting addressed in this paper. 
+Finally, all above works only examine classification error, while 
+there are many other model assessment metrics such as f1-score, 
+predictive disparity \cite{hardt2016equality} and AUC score. 
+Therefore, how to estimate prediction qualities on unlabeled 
+testing sample remains a fairly open question. 
+
+In this paper, we present a new approach to estimate prediction 
+qualities on unlabeled testing sample, based on the reverse testing framework introduced by Fan and Davidson \cite{fan2006reverse}. 
+The idea is straightforward: 
+given a labeled training set and a unlabeled testing set,
+one first learns a model from the training set and applies it
+to label the testing set; then, one retrains the model on the 
+pseudo-labeled testing set and evaluates its prediction qualities 
+on the training set -- we call these qualities \textit{reversed 
+testing qualities}. 
+We hypothesize the reversed testing qualities are more accurate 
+estimates of the testing qualities than traditional training qualities.
+
+To verify the above hypothesis, we evaluate proposed approach 
+with a variety of quality metrics in classification and anomaly 
+detection tasks, including classification error, f1-score, 
+predictive disparity and AUC score. We experiment on eight real-world 
+data sets, and results show the proposed reversed testing qualities 
+are more accurate estimate of the actual testing qualities than 
+traditional training qualities. 
+
+The rest of this paper is organized as follows: in section
+II, we introduce related background; in section III, we present 
+the proposed reverse testing estimators; experimental results 
+are presented in section IV, and conclusions are in section V.

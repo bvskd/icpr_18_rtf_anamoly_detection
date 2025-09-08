@@ -1,0 +1,155 @@
+\section{Background}
+
+Suppose one learns a prediction model $f: X \rightarrow 
+Y$ from a training sample $S \subseteq X \times Y$ and wants 
+to evaluate it on a testing sample $Q$. 
+Assume label set is binary and $Y = \{-, +\}$. 
+
+We will introduce several metrics of prediction quality, 
+and briefly revisit the reverse testing framework. 
+
+\subsection{Common Classification Quality Metrics}
+
+The most common metric of classification quality is 
+\textbf{classification error}. If testing sample is labeled 
+i.e., $Q \subseteq X \times Y$, the classification error of 
+$f$ on $Q$ is 
+\begin{equation}
+\label{er_test}
+er(f; Q) = \frac{1}{|Q|} \sum_{(x, y) \in Q} 
+{\bf 1}_{f(x) \neq y}.
+\end{equation}
+
+Another common metric is \textbf{f1-score}, 
+which is particularly useful when $Y$ has imbalanced classes. 
+If the testing sample is labeled, the f1-score of $f$ on $Q$ 
+(w.r.t. positive class) is 
+\begin{equation}
+\label{f1_test}
+f1(f; Q) = \frac{2 \cdot pre(f; Q) \cdot rec(f; Q)}{
+pre(f; Q) + rec(f; Q)},    
+\end{equation}
+where $pre$ and $rec$ are precisions and recalls 
+defined as 
+\begin{equation}
+\label{precision}
+pre(f; Q) = \frac{\sum_{(x,y) \in Q} {\bf 1}_{f(x) = +, y = +}
+}{\sum_{(x,y) \in Q} {\bf 1}_{f(x)=+}}
+\end{equation}
+and 
+\begin{equation}
+\label{recall}
+rec(f; Q) = \frac{\sum_{(x,y) \in Q} {\bf 1}_{f(x) = +, y = +}
+}{\sum_{(x,y) \in Q} {\bf 1}_{y=+}}. 
+\end{equation}
+
+From (\ref{er_test}, \ref{precision}, \ref{recall}), we see 
+one needs testing labels to estimate $er(f; Q)$ and $f1(f; Q)$; 
+and when the labels are not available, the traditional approach 
+is to approximate them with $er(f; S)$ and $f1(f; S)$, respectively. 
+
+\subsection{Predictive Demographic Disparity in Classification}
+
+An emerging concern in machine learning is demographic disparity 
+in model predictions. For example, a study by Larson et al. 
+\cite{larson2016} shows the widely-used recidivism prediction 
+software COMPAS has significant racial bias i.e., it mis-predicts 
+certain defendants who do not recidivate as high risk re-offenders, 
+and this rate for black defendant is twice as often as for white defendant (45\% vs. 23\%). 
+In another instance, Klare et al. show several commercialized 
+facial recognition algorithms have significant gender bias, 
+with males recieving 12\% higher true accept rate compared 
+to females \cite{klare2012face}. How to detect and reduce 
+predictive disparity is a pressing problem.
+
+An important metric to evaluate demographic disparity in prediction 
+is introduced by Hardt et al. \cite{hardt2016equality}, which we 
+will call \textbf{conditional predictive disparity}. 
+Suppose $Q$ is partitioned into two groups $Q_{1}$ and $Q_{2}$. 
+In $Q_{i}$, let $Q_{i+}$ be its subset with positive labels and 
+$Q_{i-}$ be its subset with negative labels. 
+The conditional predictive disparity is characterized by two ratios 
+\begin{equation}
+\label{gamma1}
+\gamma_{+}(f; Q) = \frac{\Pr \{ f(x) = + \mid x \in Q_{1+} 
+\}}{\Pr \{ f(x) = + \mid x \in Q_{2+} \}},  
+\end{equation}
+and 
+\begin{equation}
+\label{gamma2}
+\gamma_{-}(f; Q) = \frac{\Pr \{ f(x) = + \mid x 
+\in Q_{1-} \}}{\Pr \{ f(x) = + \mid x \in Q_{2-} \}}.   
+\end{equation}
+
+A model's prediction is considered less biased if $\gamma_{+}(f; Q)$ 
+and $\gamma_{-}(f; Q)$ are close to 1. 
+
+From (\ref{gamma1}) and (\ref{gamma2}), we see one needs testing 
+labels to estimate $\gamma_{\pm}(f; Q)$; and when the labels are 
+not given, the traditional approach is to approximate them using 
+$\gamma_{\pm}(f; S)$. 
+
+\subsection{Anomaly Detection Quality Metric}
+
+Anomaly detection is an important task with broad applications 
+such as fraud transaction detection, network intrusion detection, 
+system fault detection, etc \cite{chandola2009anomaly}. 
+A typical detection model $f$ predicts anomalous scores of 
+testing instances, and thresholds them to identify anomalous 
+instances. 
+
+A common metric of detection quality is {\bf AUC score}, 
+where the ROC curve is drawn with x-axis being the false alarm 
+rate and y-axis being the detection rate. 
+Suppose anomalous instances are labeled positive and normal 
+ones are labeled negative. Let $f(x;r)$ be a detection 
+model with anomalous scores thresholded by $r$, 
+such that $f(x; r) = +$ if $f(x) > r$ and $f(x; r) = -$ 
+otherwise.  The AUC score of $f$ on $Q$ is 
+\begin{equation}
+AUC(f; Q) = \sum_{r} dr(f; Q, r) \cdot \Delta far(f; Q, r),  
+\end{equation}
+where $dr$ and $far$ are detection rate and false alarm rate 
+(w.r.t. threshold $r$), respectively, defined as 
+\begin{equation}
+\label{addr}
+dr(f; Q, r) = 
+\frac{\sum_{(x,y) \in Q} {\bf 1}_{f(x; r) = +, y = +}}{
+\sum_{(x,y) \in Q} {\bf 1}_{y = +}}, 
+\end{equation}
+and 
+\begin{equation}
+\label{adfar}
+far(f; Q, r) = 
+\frac{\sum_{(x,y) \in Q} {\bf 1}_{f(x; r) = +,  
+y = -}}{\sum_{(x,y) \in Q} {\bf 1}_{y = -}}. 
+\end{equation}
+
+(\ref{addr}) and (\ref{adfar}) suggest one needs testing 
+labels to estimate AUC score; and one can approximate them 
+using $dr(f; S, r)$ and $far(f; S, r)$ in case testing labels 
+are not available. 
+
+\subsection{The Reverse Testing Framework: A Revisit}
+
+The reverse testing framework is proposed for model 
+selection in non-stationary setting by Fan and Davidson \cite{fan2006reverse}. 
+It assesses comparative prediction qualities of two models 
+on testing sample through a reverse testing process: 
+it first learns two models from $S$ and applies them to 
+label $Q$; then it retrains the two models on the 
+pseudo-labeled $Q$ and evaluates them on $S$. Their hypothesis 
+is that a model with higher prediction quality on $S$ has 
+higher prediction quality on $Q$. 
+
+Fan's approach does not apply to the problem studied 
+in this paper. It assesses comparative performance 
+between two models, while this paper aims to assess 
+performance of a single model. 
+In addition, it only examines classification error, 
+while this paper additionally examines f1-score, 
+predictive disparity and AUC score. 
+However, our proposed approach is largely motivated 
+by Fan's work. 
+
+

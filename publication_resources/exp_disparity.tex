@@ -1,0 +1,36 @@
+\subsection{Estimate Conditional Predictive Demographic Disparity without Testing Labels} 
+
+In this section, we evaluate Algorithm \ref{alg:prediction} 
+for the conditional predictive disparity on the Crime 
+Community data set. 
+
+We examined the disparity between African American (AA) 
+and non-African American  (nAA) communities. The former 
+are those with feature ``percentage of population that 
+is African American'' above 50\%, and the latter 
+are the rest communities. 
+
+Recall $\gamma_{\pm}$ are the ratios 
+that characterize conditional predictive demographic 
+disparity. Let $\tilde{\gamma}_{\pm}$ be the reversed 
+testing ratios. The estimation quality of 
+$\gamma_{\pm}(f; S)$ on $\gamma_{\pm}(f; Q)$ is 
+\begin{equation}
+\Delta_{tr} = | \gamma_{\pm}(f; Q) - \gamma_{\pm}(f; S)|, 
+\end{equation}
+and the quality of $\tilde{\gamma}_{\pm}(f; S)$ 
+on $\gamma_{\pm}(f; Q)$ is 
+\begin{equation}
+\Delta_{retr} = | \gamma_{\pm}(f; Q) 
+- \tilde{\gamma}_{\pm}(f; S)|.  
+\end{equation}
+Results are shown in Table \ref{exp1:disparity}.  
+We see $\tilde{\gamma}_{\pm}(f; S)$ are 
+more accurate estimate of $\gamma_{\pm}(f; Q)$ 
+than $\gamma_{\pm}(f; S)$ in most cases, with 
+an exception with logistic regression. 
+
+
+
+
+
