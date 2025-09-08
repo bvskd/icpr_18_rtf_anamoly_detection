@@ -1,0 +1,56 @@
+import matplotlib.pyplot as plt
+import numpy as np
+
+from numpy import genfromtxt
+from sklearn.model_selection import train_test_split
+from sklearn.mixture import GaussianMixture
+from sklearn import metrics
+from funpack import EVALAD
+
+data = genfromtxt("Arrhythmia.csv", delimiter = ',')
+x = data[:,0:-1]
+y = data[:,-1]
+y[y==0] = -1
+
+aucscore = np.zeros((20,3))
+
+gm = GaussianMixture(n_components = 4)
+
+for k in range (20):
+    
+    print('trial.%d' % k)
+    X_train, X_test, Y_train, Y_test = train_test_split(x, y, test_size = 0.5, random_state=k)
+    
+    idxneg1 = np.where(Y_train == -1)[0]
+    X_train_neg = X_train[idxneg1,:]
+    gm.fit(X_train_neg)
+    loglikehood1 = gm.score_samples(X_train)
+    far, dr = EVALAD(Y_train,loglikehood1,500)
+    aucscore[k,0] = metrics.auc(far,dr)
+
+    
+    gm.fit(X_train_neg)
+    loglikehood2 = gm.score_samples(X_test)
+    far, dr = EVALAD(Y_test,loglikehood2,500)
+    aucscore[k,1] = metrics.auc(far,dr)
+    idxsort2 = np.argsort(loglikehood2)
+    Y_pred2 = -1*np.ones(len(Y_test))
+    Y_pred2[idxsort2[-113:-1]] = 1
+
+    
+    idxneg2 = np.where(Y_pred2 == -1)[0]
+    X_test_neg = X_test[idxneg2,:]
+    gm.fit(X_test_neg)
+    loglikehood3 = gm.score_samples(X_train)
+    far, dr = EVALAD(Y_train,loglikehood3,500)
+    aucscore[k,2] = metrics.auc(far,dr)
+
+
+aucmean = np.mean(aucscore,axis=0)
+aucvar = np.var(aucscore,axis=0)
+print('\n TrainingAUC = %.4f (%f)' % (aucmean[0],aucvar[0]))
+print('\n TestingAUC = %.4f (%f)' % (aucmean[1],aucvar[1]))
+print('\n ReverseTrainingAUC = %.4f (%f)' % (aucmean[2],aucvar[2]))
+
+print('\n \n Delta_tr = %.4f' % abs(aucmean[0] - aucmean[1]))
+print('\n Delta_retr = %.4f' % abs(aucmean[1] - aucmean[2]))
