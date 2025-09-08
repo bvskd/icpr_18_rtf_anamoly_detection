@@ -1,0 +1,61 @@
+OCSVM
+
+ TrainingAUC = 0.0988 (0.000010)
+
+ TestingAUC = 0.1016 (0.000010)
+
+ ReverseTrainingAUC = 0.0996 (0.000011)
+
+ 
+ Threshold = 0.000000
+
+ 
+ Delta_tr = 0.0028
+
+ Delta_retr = 0.0020
+ 
+ 
+ 
+PCA
+ 
+ TrainingAUC = 1.0000 (0.000000)
+
+ TestingAUC = 0.9990 (0.000001)
+
+ ReverseTrainingAUC = 0.9982 (0.000002)
+
+ 
+ Delta_tr = 0.001
+
+ Delta_retr = 0.0008
+ 
+ 
+ K-Means
+ 
+  TrainingAUC = 0.9934 (0.000003)
+
+ TestingAUC = 0.9909 (0.000003)
+
+ ReverseTrainingAUC = 0.9922 (0.000002)
+
+ 
+ Delta_tr = 0.0024
+
+ Delta_retr = 0.0013
+ 
+ 
+ 
+GMM (Weird Results)
+ 
+ TrainingAUC = 0.9998 (0.000000)
+
+ TestingAUC = 0.0071 (0.000004)
+
+ ReverseTrainingAUC = 0.5024 (0.000082)
+
+ 
+ Delta_tr = 0.9927
+
+ Delta_retr = 0.4953
+ 
+ 

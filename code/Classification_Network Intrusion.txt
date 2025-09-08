@@ -1,0 +1,80 @@
+LOGREG 
+ 
+ TrainingErr = 0.4226 (0.007254)
+
+ TestingErr = 0.4257 (0.007086)
+
+ ReverseTrainingErr = 0.4458 (0.003261)
+
+ 
+ TrainingF1 = 0.5487 (0.008845)
+
+ TestingF1 = 0.5464 (0.008603)
+
+ ReverseTrainingF1 = 0.5131 (0.004241)
+
+ 
+ Delta_tr(Err) = 0.0031
+
+ Delta_retr(Err) = 0.0200
+
+ 
+ Delta_tr(F1) = 0.0023
+
+ Delta_retr(F1) = 0.0333
+ 
+ 
+KNN
+ 
+  TrainingErr = 0.0130 (0.000001)
+
+ TestingErr = 0.0234 (0.000005)
+
+ ReverseTrainingErr = 0.0222 (0.000002)
+
+ 
+ TrainingF1 = 0.9870 (0.000001)
+
+ TestingF1 = 0.9765 (0.000005)
+
+ ReverseTrainingF1 = 0.9778 (0.000002)
+
+ 
+ Delta_tr(Err) = 0.0104
+
+ Delta_retr(Err) = 0.0013
+
+ 
+ Delta_tr(F1) = 0.0104
+
+ Delta_retr(F1) = 0.0013
+
+
+Decision Tree
+ 
+ TrainingErr = 0.0162 (0.000008)
+
+ TestingErr = 0.0250 (0.000006)
+
+ ReverseTrainingErr = 0.0267 (0.000032)
+
+ 
+ TrainingF1 = 0.9838 (0.000008)
+
+ TestingF1 = 0.9750 (0.000006)
+
+ ReverseTrainingF1 = 0.9734 (0.000032)
+
+ 
+ Delta_tr(Err) = 0.0088
+
+ Delta_retr(Err) = 0.0017
+
+ 
+ Delta_tr(F1) = 0.0088
+
+ Delta_retr(F1) = 0.0016
+ 
+Linear SVM
+
+It is taking lot of time to run this method even with down sampled data set
